@@ -54,53 +54,11 @@ def callback():
 
     return 'OK'
 
-# MessageEvent
-@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
+	line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(
-            text = q3,
-            quick_reply=QuickReply(
-                items=[
-                    QuickReplyButton(
-                        action=MessageAction(label="なんでやねん！",text="なんでやねん！")
-                        ),
-                    QuickReplyButton(
-                        action=PostbackAction(label="詳しく",data="詳しく")
-                        ),
-                    QuickReplyButton(
-                        action=PostbackAction(label="OK",data="OK")
-                        ),
-                ])))
-
-@handler.add(PostbackEvent)
-def handle_postback(event):
-    if event.postback.data == 'OK':
-        line_bot_api.reply_message(
-            event.reply_token, TextSendMessage(text="数式を入力して下さい"))
-    elif event.postback.data == 'グラフ':
-        file = open(event.source.user_id[:4] + ".txt","r")
-        data = file.read()
-        file.close()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(
-                text = data+"(https://dictionary.goo.ne.jp/word/"+data+")",
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=PostbackAction(label="OK",data="OK")
-                        ),
-                    ])))
-
-@handler.add(FollowEvent)
-def handle_follow(event):
-    app.logger.info("Got Follow event:" + event.source.user_id)
-    line_bot_api.reply_message(
-        event.reply_token, TextSendMessage(text="数式を入力して下さい"))
-
-
+        TextSendMessage(text='「' + event.message.text + '」って何？')
+     )
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT"))

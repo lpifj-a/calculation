@@ -1,3 +1,4 @@
+# インポートするライブラリ
 from flask import Flask, request, abort
 
 from linebot import (
@@ -36,7 +37,6 @@ LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
-
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -54,11 +54,21 @@ def callback():
 
     return 'OK'
 
+# MessageEvent
+@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 	line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text='「' + event.message.text + '」って何？')
      )
+
+
+@handler.add(FollowEvent)
+def handle_follow(event):
+    app.logger.info("Got Follow event:" + event.source.user_id)
+    line_bot_api.reply_message(
+        event.reply_token, TextSendMessage(text='解析したい数式を入力して下さい'))
+
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT"))

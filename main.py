@@ -60,9 +60,10 @@ def handle_message(event):
     text = event.message.text
     x = symbols('x')
     y = sympify(text)
+    plotting.plot(y)
 	line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=y)
+        TextSendMessage(text="a")
      )
 
 

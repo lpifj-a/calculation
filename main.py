@@ -56,15 +56,14 @@ def callback():
     return 'OK'
 
 # MessageEvent
-@handler.add(MessageEvent, message=ImageMessage)
+@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text = event.message.text
     x = symbols('x')
     y = sympify(text)
     g = plotting.plot(y)
     g.save("a.png")
-    url = request.url_root + '/static/a.png'
-    app.logger.info("url=" + url)
+    url =  "https://calculation-sympy.herokuapp.com/callback/a.png"
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(url, url)

@@ -62,7 +62,7 @@ def handle_message(event):
     y = sympify(text)
     dy = diff(y)
     str=print(dy)
-    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=str))
+    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=str(str)))
 
 @handler.add(FollowEvent)
 def handle_follow(event):

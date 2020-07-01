@@ -60,9 +60,13 @@ def handle_message(event):
     text = event.message.text
     x = symbols('x')
     y = sympify(text)
-    dy = diff(y)
-    str=print(dy)
-    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=str(str)))
+    g = plotting.plot(y)
+    g.save("a.png")
+    image_message = ImageSendMessage(
+        url=f"https://calculation-sympy.herokuapp.com/a.png",
+    )
+
+    line_bot_api.reply_message(event.reply_token, image_message)
 
 @handler.add(FollowEvent)
 def handle_follow(event):

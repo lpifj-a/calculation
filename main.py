@@ -28,7 +28,6 @@ from sympy import *
 # 軽量なウェブアプリケーションフレームワーク:Flask
 app = Flask(__name__)
 
-tatic_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 
 #環境変数からLINE Access Tokenを設定
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
@@ -63,7 +62,7 @@ def handle_message(event):
     y = sympify(text)
     g = plotting.plot(y)
     g.save("a.png")
-    url =  "/tmp/a.png"
+    url =  "a.png"
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(url, url)

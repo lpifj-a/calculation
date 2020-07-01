@@ -29,6 +29,7 @@ from sympy import *
 app = Flask(__name__)
 
 tatic_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
+
 #環境変数からLINE Access Tokenを設定
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 #環境変数からLINE Channel Secretを設定
@@ -55,7 +56,7 @@ def callback():
     return 'OK'
 
 # MessageEvent
-@handler.add(MessageEvent, message=TextMessage)
+@handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
     text = event.message.text
     x = symbols('x')

@@ -23,7 +23,8 @@ from linebot.models import (
     SeparatorComponent, QuickReply, QuickReplyButton,
     ImageSendMessage)
 import os
-
+import matplotlib.pyplot as plt
+from sympy import *
 # 軽量なウェブアプリケーションフレームワーク:Flask
 app = Flask(__name__)
 

@@ -57,77 +57,22 @@ def callback():
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    text = event.message.text
-
-    if text == "？":
-        file = open(event.source.user_id[:4] + ".txt", "r")
-        data = file.read()
-        file.close()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=data+"(https://dictionary.goo.ne.jp/word/"+data+")"))
-
-    elif text == "なんでやねん！":
-        file = open(event.source.user_id[:4] +".txt","r")
-        data = file.read()
-        file.close()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(
-                text = "すみません、「"+data+"」と間違えました",
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=PostbackAction(label="詳しく",data="詳しく")
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(
+            text = q3,
+            quick_reply=QuickReply(
+                items=[
+                    QuickReplyButton(
+                        action=MessageAction(label="なんでやねん！",text="なんでやねん！")
                         ),
-                        QuickReplyButton(
-                            action=PostbackAction(label="OK",data="OK")
+                    QuickReplyButton(
+                        action=PostbackAction(label="詳しく",data="詳しく")
                         ),
-                    ])))
-    else :
-        q1 = text
-        q3 = 0
-        count = 0
-        while(q3==0):
-            q2 = change(q1)
-            q3 = scrape(q2)
-            count += 1
-            if(count > 10):
-                if(scrape(q1)):
-                    q3 = scrape(q1)
-                else:
-                    q3 = "わかりません"
-                q2 = q1
-                break
-        file = open(event.source.user_id[:4] +".txt","w")
-        file.write(q2)
-        file.close()
-        if q3 == "わかりません":
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(
-                    text = q3,
-                    quick_reply=QuickReply(
-                        items=[
-                            QuickReplyButton(
-                                action=PostbackAction(label="OK",data="OK")
-                            ),
-                        ])))
-        else :
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(
-                    text = q3,
-                    quick_reply=QuickReply(
-                        items=[
-                            QuickReplyButton(
-                                action=MessageAction(label="なんでやねん！",text="なんでやねん！")
-                                ),
-                            QuickReplyButton(
-                                action=PostbackAction(label="詳しく",data="詳しく")
-                                ),
-                            QuickReplyButton(
-                                action=PostbackAction(label="OK",data="OK")
-                                ),
-                        ])))
+                    QuickReplyButton(
+                        action=PostbackAction(label="OK",data="OK")
+                        ),
+                ])))
 
 @handler.add(PostbackEvent)
 def handle_postback(event):

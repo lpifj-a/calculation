@@ -57,9 +57,12 @@ def callback():
 # MessageEvent
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    text = event.message.text
+    x = symbols('x')
+    y = sympify(text)
 	line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text='「' + event.message.text + '」って何？')
+        TextSendMessage(text=y)
      )
 
 

@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 from sympy import *
 
-str=input(">")
+
+str="x"
 
 x = symbols('x')
 y = sympify(str)
-#plotting.plot(y)
-pprint(y)
-pprint(diff(y))
+dy = diff(y)
+str=print(y)
+print(type(str))

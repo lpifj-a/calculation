@@ -21,7 +21,7 @@ from linebot.models import (
     TextComponent, SpacerComponent, IconComponent, ButtonComponent,
     SeparatorComponent, QuickReply, QuickReplyButton,
     ImageSendMessage)
-
+import os
 import matplotlib.pyplot as plt
 from sympy import *
 # 軽量なウェブアプリケーションフレームワーク:Flask

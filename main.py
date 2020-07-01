@@ -55,7 +55,7 @@ def callback():
     return 'OK'
 
 # MessageEvent
-@handler.add(MessageEvent, message=TextMessage)
+@handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
     text = event.message.text
     x = symbols('x')

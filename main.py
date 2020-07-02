@@ -62,7 +62,7 @@ def handle_message(event):
     x = symbols('x')
     y = sympify(text)
     g = plotting.plot(y)
-    g.save("/tmp/a.png")
+    g.save("a.png")
 
     img = Image.open('a.png')
     rgb_img = img.convert('RGB')

@@ -62,12 +62,15 @@ def handle_message(event):
     y = sympify(text)
     g = plotting.plot(y)
     g.save("a.png")
+    """
     url = os.getcwd() + '/a.png'
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(url, url)
         )
-
+    """
+    str = os.getcwd()
+    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=str))
 @handler.add(FollowEvent)
 def handle_follow(event):
     app.logger.info("Got Follow event:" + event.source.user_id)

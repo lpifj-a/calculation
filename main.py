@@ -68,7 +68,8 @@ def handle_message(event):
     rgb_img = img.convert('RGB')
     rgb_img.save('a.jpg')
 
-    url = " https://calculation-sympy.herokuapp.com/app/a.jpg"
+    url = request.url_root + '/static/a.jpg'
+    app.logger.info("url=" + url)
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(url, url)

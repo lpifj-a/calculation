@@ -74,7 +74,7 @@ def handle_message(event):
         ImageSendMessage(url, url)
         )
     """
-    str = os.path.abspath(__file__)
+    str = request.url_root
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=str))
 
 @handler.add(FollowEvent)

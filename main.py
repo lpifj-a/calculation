@@ -65,18 +65,17 @@ def handle_message(event):
     g.save("static/a.png")
 
     img = Image.open('static/a.png')
+    """
     rgb_img = img.convert('RGB')
 
     rgb_img.save('static/a.jpg')
-    url = "https://calculation-sympy.herokuapp.com/static/a.jpg"
+    """
+    url = "https://calculation-sympy.herokuapp.com/static/a.png"
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(url, url)
         )
-    """
-    str = request.url_root
-    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=str))
-    """
+
 @handler.add(FollowEvent)
 def handle_follow(event):
     app.logger.info("Got Follow event:" + event.source.user_id)

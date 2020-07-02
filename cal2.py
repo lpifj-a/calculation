@@ -3,7 +3,7 @@ from sympy import *
 import os
 from PIL import Image
 
-str="x^2"
+str="x*log(x)"
 
 x = symbols('x')
 y = sympify(str)

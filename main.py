@@ -62,7 +62,7 @@ def handle_message(event):
     y = sympify(text)
     g = plotting.plot(y)
     g.save("a.png")
-    url = static_tmp_path+"/a.png"
+    url = " https://calculation-sympy.herokuapp.com/callback/app/a.png"
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(url, url)

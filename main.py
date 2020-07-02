@@ -25,6 +25,7 @@ from linebot.models import (
 import os
 import matplotlib.pyplot as plt
 from sympy import *
+from PIL import Image
 # 軽量なウェブアプリケーションフレームワーク:Flask
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
@@ -61,7 +62,12 @@ def handle_message(event):
     x = symbols('x')
     y = sympify(text)
     g = plotting.plot(y)
-    g.save("/tmp/a.jpg")
+    g.save("/tmp/a.png")
+
+    img = Image.open('a.png')
+    rgb_img = img.convert('RGB')
+    rgb_img.save('a.jpg')
+    
     url = " https://calculation-sympy.herokuapp.com/tmp/a.jpg"
     line_bot_api.reply_message(
         event.reply_token,

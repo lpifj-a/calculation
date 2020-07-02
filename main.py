@@ -67,8 +67,7 @@ def handle_message(event):
     img = Image.open('a.png')
     rgb_img = img.convert('RGB')
     rgb_img.save('a.jpg')
-    """
-    url = os.getcwd() + '/a.jpg'
+    url = request.url_root + 'app/a.jpg'
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(url, url)
@@ -76,7 +75,7 @@ def handle_message(event):
     """
     str = request.url_root
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=str))
-
+    """
 @handler.add(FollowEvent)
 def handle_follow(event):
     app.logger.info("Got Follow event:" + event.source.user_id)

@@ -62,7 +62,7 @@ def handle_message(event):
     y = sympify(text)
     g = plotting.plot(y)
     g.save("a.png")
-    url = request.url_root + '/a.png'
+    url = os.getcwd() + '/a.png'
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(url, url)

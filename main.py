@@ -95,7 +95,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text = q3,
+                text = "操作を選んでください",
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(

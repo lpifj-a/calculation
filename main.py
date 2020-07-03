@@ -124,7 +124,7 @@ def handle_postback(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text = "※入力された数式を読みとれないと結果を返せません。\nー演算記号についてー\n掛け算: *\n割り算: /\nべき乗: ^　(または**)\n※掛け算の記号「*」は省略せずに書いてください。\nー使える関数,定数ー\n三角関数:sin(x),cos(x),tan(x)\n対数関数:log(x)\n指数関数:exp(x)\n二乗根: sqrt(x)\n円周率:pi\n自然対数の底:E\n虚数単位:I",
+                text = "※入力の形式が違うと結果が返ってきません。\nー演算記号についてー\n掛け算: *\n割り算: /\nべき乗: ^　(または**)\n※掛け算の記号「*」は省略せずに書いてください。\n \nー使える関数,定数ー\n三角関数: sin(x),cos(x)\n対数関数: log(x)\n指数関数: exp(x)\n二乗根: sqrt(x)\n円周率: pi\n自然対数の底: E\n虚数単位: I",
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(

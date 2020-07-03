@@ -124,8 +124,7 @@ def handle_postback(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text = """※入力された数式を読みとれないと結果を返せません。
-                          ー演算記号についてー
+                text = """※入力された数式を読みとれないと結果を返せません。\nー演算記号についてー\n
                           掛け算: *
                           割り算: /
                           べき乗: ^　(または**)

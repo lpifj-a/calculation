@@ -124,7 +124,7 @@ def handle_postback(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text = "結果が返ってこないときは、入力に間違いがないか確認してみてください。掛け算の記号「*」を省略せずに書いてください。",
+                text = "結果が返ってこないときは入力に間違いがないか確認してみてください。\n 掛け算の記号「*」は省略せずに書いてください。",
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(

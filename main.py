@@ -70,9 +70,10 @@ def handle_message(event):
 
         try :
             g = plotting.plot(y)
-        except TypeError as e:
+        except:
             line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text="解析したい数式を入力して下さい"))
+
         else:
             g = plotting.plot(y)
             g.save("static/" + event.source.user_id[:4] +".png")

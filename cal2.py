@@ -3,7 +3,7 @@ from sympy import *
 import os
 
 
-str="xlog(x)"
+str="xlog("
 
 x = symbols('x')
 y = sympify(str)

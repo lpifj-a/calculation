@@ -78,7 +78,7 @@ def handle_message(event):
                     quick_reply=QuickReply(
                         items=[
                             QuickReplyButton(
-                                action=PostbackAction(label="OK",data="OK")
+                                action=PostbackAction(label="ok",data="ok")
                                 ),
                             QuickReplyButton(
                                 action=PostbackAction(label="help",data="help")
@@ -99,7 +99,7 @@ def handle_message(event):
                                 action=MessageAction(label="微分",text="微分")
                                 ),
                             QuickReplyButton(
-                                action=PostbackAction(label="OK",data="OK")
+                                action=PostbackAction(label="ok",data="ok")
                                 ),
                             QuickReplyButton(
                                 action=PostbackAction(label="help",data="help")
@@ -125,7 +125,7 @@ def handle_message(event):
                             action=MessageAction(label="グラフ",text="グラフ")
                             ),
                         QuickReplyButton(
-                            action=PostbackAction(label="OK",data="OK")
+                            action=PostbackAction(label="ok",data="ok")
                             ),
                         QuickReplyButton(
                             action=PostbackAction(label="help",data="help")
@@ -149,7 +149,7 @@ def handle_message(event):
                             action=MessageAction(label="微分",text="微分")
                             ),
                         QuickReplyButton(
-                            action=PostbackAction(label="OK",data="OK")
+                            action=PostbackAction(label="ok",data="ok")
                             ),
                         QuickReplyButton(
                             action=PostbackAction(label="help",data="help")
@@ -158,7 +158,7 @@ def handle_message(event):
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    if event.postback.data == 'OK':
+    if event.postback.data == 'ok':
         line_bot_api.reply_message(
             event.reply_token, TextSendMessage(text="解析したい数式を入力して下さい"))
     elif event.postback.data == 'help':
@@ -184,7 +184,7 @@ def handle_postback(event):
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=PostbackAction(label="OK",data="OK")
+                            action=PostbackAction(label="ok",data="ok")
                         ),
                     ])))
 
@@ -192,7 +192,22 @@ def handle_postback(event):
 def handle_follow(event):
     app.logger.info("Got Follow event:" + event.source.user_id)
     line_bot_api.reply_message(
-        event.reply_token, TextSendMessage(text='グラフ描画、微分積分などの計算ができます。\n解析したい数式を入力して下さい。\n　\n※掛け算の記号「*」は省略せずに書いてください。\n \nーー演算記号についてーー\n掛け算: *\n割り算: /\nべき乗: ^　(または**)\n　\nーー使える関数,定数ーー\n三角関数: sin(x),cos(x)\n対数関数: log(x)\n指数関数: exp(x)\n二乗根: sqrt(x)\n円周率: pi\n自然対数の底: E\n虚数単位: I'))
+        event.reply_token, TextSendMessage(text="グラフ描画、微分積分などの計算ができます。\n"\
+                                                "解析したい数式を入力して下さい。\n"\
+                                                "※掛け算の記号「*」は省略せずに書いてください。\n\n"\
+                                                "ーー演算記号についてーー\n"\
+                                                "掛け算: *\n"\
+                                                "割り算: /\n"\
+                                                "べき乗: ^　(または**)\n\n"\
+                                                "ーー使える関数,定数ーー\n"\
+                                                "三角関数: sin(x),cos(x)\n"\
+                                                "対数関数: log(x)\n"\
+                                                "指数関数: exp(x)\n"\
+                                                "二乗根: sqrt(x)\n"\
+                                                "円周率: pi\n"\
+                                                "自然対数の底: E\n"\
+                                                "虚数単位: I"            
+                                           ))
 
 
 if __name__ == "__main__":

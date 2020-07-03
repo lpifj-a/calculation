@@ -92,7 +92,45 @@ def handle_message(event):
         file = open(event.source.user_id[:4] +".txt","w")
         file.write(text)
         file.close()
-        
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(
+                text = q3,
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=MessageAction(label="グラフ",text="グラフ")
+                            ),
+                        QuickReplyButton(
+                            action=MessageAction(label="微分",text="微分")
+                            ),
+                        QuickReplyButton(
+                            action=PostbackAction(label="OK",data="OK")
+                            ),
+                        QuickReplyButton(
+                            action=PostbackAction(label="Help",data="help")
+                            ),
+                    ])))
+
+@handler.add(PostbackEvent)
+def handle_postback(event):
+    if event.postback.data == 'OK':
+        line_bot_api.reply_message(
+            event.reply_token, TextSendMessage(text="解析したい数式を入力して下さい"))
+    elif event.postback.data == 'help':
+        file = open(event.source.user_id[:4] + ".txt","r")
+        data = file.read()
+        file.close()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(
+                text = "結果が返ってこないときは、入力に間違いがないか確認してみてください。掛け算の記号「*」を省略せずに書いてください。",
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=PostbackAction(label="OK",data="OK")
+                        ),
+                    ])))
 
 @handler.add(FollowEvent)
 def handle_follow(event):

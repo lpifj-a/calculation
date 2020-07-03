@@ -108,7 +108,7 @@ def handle_message(event):
                             action=PostbackAction(label="OK",data="OK")
                             ),
                         QuickReplyButton(
-                            action=PostbackAction(label="Help",data="help")
+                            action=PostbackAction(label="help",data="help")
                             ),
                     ])))
 
@@ -124,7 +124,14 @@ def handle_postback(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text = "結果が返ってこないときは入力に間違いがないか確認してみてください。\n 掛け算の記号「*」は省略せずに書いてください。",
+                text = """※入力された数式を読みとれないと結果を返せません。\n
+                          ※掛け算の記号「*」は省略せずに書いてください。\n
+                          ー入力についてー \n
+                          三角関数:sin(x),cos(x),tan(x) \n
+                          対数関数:log(x)\n
+                          円周率:pi,\n
+                          自然対数の底:E\n
+                          虚数単位:I""",
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(

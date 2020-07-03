@@ -71,10 +71,32 @@ def handle_message(event):
         g.save("static/" + event.source.user_id[:4] +".png")
 
         url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
+        """
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(url, url)
             )
+        """
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                url,url,
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=MessageAction(label="グラフ",text="グラフ")
+                            ),
+                        QuickReplyButton(
+                            action=MessageAction(label="微分",text="微分")
+                            ),
+                        QuickReplyButton(
+                            action=PostbackAction(label="OK",data="OK")
+                            ),
+                        QuickReplyButton(
+                            action=PostbackAction(label="help",data="help")
+                            ),
+                    ])))
+
 
     elif text == "微分":
         file = open(event.source.user_id[:4] + ".txt", "r")
@@ -103,7 +125,7 @@ def handle_message(event):
                             action=PostbackAction(label="help",data="help")
                             ),
                     ])))
-                    
+
     else:
         file = open(event.source.user_id[:4] +".txt","w")
         file.write(text)

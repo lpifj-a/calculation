@@ -71,21 +71,13 @@ def handle_message(event):
         g.save("static/" + event.source.user_id[:4] +".png")
 
         url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
-        """
-        line_bot_api.reply_message(
-            event.reply_token,
-            ImageSendMessage(url, url)
-            )
-        """
+
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
                 url,url,
                 quick_reply=QuickReply(
                     items=[
-                        QuickReplyButton(
-                            action=MessageAction(label="グラフ",text="グラフ")
-                            ),
                         QuickReplyButton(
                             action=MessageAction(label="微分",text="微分")
                             ),
@@ -114,9 +106,6 @@ def handle_message(event):
                     items=[
                         QuickReplyButton(
                             action=MessageAction(label="グラフ",text="グラフ")
-                            ),
-                        QuickReplyButton(
-                            action=MessageAction(label="微分",text="微分")
                             ),
                         QuickReplyButton(
                             action=PostbackAction(label="OK",data="OK")
@@ -174,7 +163,7 @@ def handle_postback(event):
 def handle_follow(event):
     app.logger.info("Got Follow event:" + event.source.user_id)
     line_bot_api.reply_message(
-        event.reply_token, TextSendMessage(text='解析したい数式を入力して下さい'))
+        event.reply_token, TextSendMessage(text='グラフ描画、微分積分などの計算ができます。\n解析したい数式を入力して下さい。\n \n※入力の形式が違うと結果が返ってきません。\n※掛け算の記号「*」は省略せずに書いてください。\n \nーー演算記号についてーー\n掛け算: *\n割り算: /\nべき乗: ^　(または**)\n　\nーー使える関数,定数ーー\n三角関数: sin(x),cos(x)\n対数関数: log(x)\n指数関数: exp(x)\n二乗根: sqrt(x)\n円周率: pi\n自然対数の底: E\n虚数単位: I'))
 
 
 if __name__ == "__main__":

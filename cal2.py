@@ -8,9 +8,10 @@ str="xlog(x)"
 x = symbols('x')
 y = sympify(str)
 #dy = diff(y)
+"""
 try :
     g = plotting.plot(y)
 except TypeError as e:
     text = "Error"
-
-print(text)
+"""
+g=plotting.plot(y)

@@ -66,13 +66,24 @@ def handle_message(event):
         file.close()
 
         x = symbols('x')
-        
+
         try :
             y = sympify(data)
             g = plotting.plot(y)
         except:
             line_bot_api.reply_message(
-                event.reply_token, TextSendMessage(text="解析したい数式を入力して下さい"))
+                event.reply_token,
+                TextSendMessage(
+                    text = "数式を読み取れませんでした",
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=PostbackAction(label="OK",data="OK")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="help",data="help")
+                                ),
+                        ])))
         finally:
             g = plotting.plot(y)
             g.save("static/" + event.source.user_id[:4] +".png")
@@ -157,7 +168,19 @@ def handle_postback(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text = "※入力の形式が違うと結果が返ってきません。\n※掛け算の記号「*」は省略せずに書いてください。\n \nーー演算記号についてーー\n掛け算: *\n割り算: /\nべき乗: ^　(または**)\n　\nーー使える関数,定数ーー\n三角関数: sin(x),cos(x)\n対数関数: log(x)\n指数関数: exp(x)\n二乗根: sqrt(x)\n円周率: pi\n自然対数の底: E\n虚数単位: I",
+                text = "※掛け算の記号「*」は省略せずに書いてください。\n\n"\
+                        "ーー演算記号についてーー\n"\
+                        "掛け算: *\n"\
+                        "割り算: /\n"\
+                        "べき乗: ^　(または**)\n\n"\
+                        "ーー使える関数,定数ーー\n"\
+                        "三角関数: sin(x),cos(x)\n"\
+                        "対数関数: log(x)\n"\
+                        "指数関数: exp(x)\n"\
+                        "二乗根: sqrt(x)\n"\
+                        "円周率: pi\n"\
+                        "自然対数の底: E\n"\
+                        "虚数単位: I",
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
@@ -169,7 +192,7 @@ def handle_postback(event):
 def handle_follow(event):
     app.logger.info("Got Follow event:" + event.source.user_id)
     line_bot_api.reply_message(
-        event.reply_token, TextSendMessage(text='グラフ描画、微分積分などの計算ができます。\n解析したい数式を入力して下さい。\n \n※入力の形式が違うと結果が返ってきません。\n※掛け算の記号「*」は省略せずに書いてください。\n \nーー演算記号についてーー\n掛け算: *\n割り算: /\nべき乗: ^　(または**)\n　\nーー使える関数,定数ーー\n三角関数: sin(x),cos(x)\n対数関数: log(x)\n指数関数: exp(x)\n二乗根: sqrt(x)\n円周率: pi\n自然対数の底: E\n虚数単位: I'))
+        event.reply_token, TextSendMessage(text='グラフ描画、微分積分などの計算ができます。\n解析したい数式を入力して下さい。\n　\n※掛け算の記号「*」は省略せずに書いてください。\n \nーー演算記号についてーー\n掛け算: *\n割り算: /\nべき乗: ^　(または**)\n　\nーー使える関数,定数ーー\n三角関数: sin(x),cos(x)\n対数関数: log(x)\n指数関数: exp(x)\n二乗根: sqrt(x)\n円周率: pi\n自然対数の底: E\n虚数単位: I'))
 
 
 if __name__ == "__main__":

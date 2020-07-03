@@ -13,3 +13,6 @@ try:
 except:
     print("a")
 #dy = diff(y)
+if 1:
+    print("aaa\n\n"\
+         "aaaaaaa")

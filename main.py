@@ -84,10 +84,26 @@ def handle_message(event):
         x = symbols('x')
         y = sympify(data)
         dy = diff(y)
-
         line_bot_api.reply_message(
-            event.reply_token, TextSendMessage(text=sstr(dy)))
-
+            event.reply_token,
+            TextSendMessage(
+                text = sstr(dy),
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=MessageAction(label="グラフ",text="グラフ")
+                            ),
+                        QuickReplyButton(
+                            action=MessageAction(label="微分",text="微分")
+                            ),
+                        QuickReplyButton(
+                            action=PostbackAction(label="OK",data="OK")
+                            ),
+                        QuickReplyButton(
+                            action=PostbackAction(label="help",data="help")
+                            ),
+                    ])))
+                    
     else:
         file = open(event.source.user_id[:4] +".txt","w")
         file.write(text)

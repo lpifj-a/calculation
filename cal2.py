@@ -3,15 +3,13 @@ from sympy import *
 import os
 
 
-str="xlog("
+
+str="xlog(x)"
 
 x = symbols('x')
-y = sympify(str)
-#dy = diff(y)
-"""
-try :
+try:
+    y = sympify(str)
     g = plotting.plot(y)
-except TypeError as e:
-    text = "Error"
-"""
-print(diff(y))
+except:
+    print("a")
+#dy = diff(y)

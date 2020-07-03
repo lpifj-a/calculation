@@ -66,9 +66,9 @@ def handle_message(event):
         file.close()
 
         x = symbols('x')
-        y = sympify(data)
-
+        
         try :
+            y = sympify(data)
             g = plotting.plot(y)
         except:
             line_bot_api.reply_message(

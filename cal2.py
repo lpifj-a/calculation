@@ -14,4 +14,4 @@ try :
 except TypeError as e:
     text = "Error"
 """
-g=plotting.plot(y)
+print(diff(y))

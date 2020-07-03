@@ -73,8 +73,7 @@ def handle_message(event):
         except:
             line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text="解析したい数式を入力して下さい"))
-
-        else:
+        finally:
             g = plotting.plot(y)
             g.save("static/" + event.source.user_id[:4] +".png")
             url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"

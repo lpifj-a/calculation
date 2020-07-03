@@ -59,16 +59,40 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text = event.message.text
-    x = symbols('x')
-    y = sympify(text)
-    g = plotting.plot(y)
-    g.save("static/" + event.source.user_id[:4] +".png")
+    if text == "グラフ":
 
-    url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
-    line_bot_api.reply_message(
-        event.reply_token,
-        ImageSendMessage(url, url)
-        )
+        file = open(event.source.user_id[:4] + ".txt", "r")
+        data = file.read()
+        file.close()
+
+        x = symbols('x')
+        y = sympify(data)
+        g = plotting.plot(y)
+        g.save("static/" + event.source.user_id[:4] +".png")
+
+        url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(url, url)
+            )
+
+    elif text == "微分":
+        file = open(event.source.user_id[:4] + ".txt", "r")
+        data = file.read()
+        file.close()
+
+        x = symbols('x')
+        y = sympify(data)
+        dy = diff(y)
+
+        line_bot_api.reply_message(
+            event.reply_token, TextSendMessage(text=sstr(dy)))
+
+    else:
+        file = open(event.source.user_id[:4] +".txt","w")
+        file.write(text)
+        file.close()
+        
 
 @handler.add(FollowEvent)
 def handle_follow(event):

@@ -71,8 +71,7 @@ def handle_message(event):
         try :
             g = plotting.plot(y)
         except TypeError as e:
-            print("Error")
-
+            print("Error",e)
         else:
             g = plotting.plot(y)
             g.save("static/" + event.source.user_id[:4] +".png")

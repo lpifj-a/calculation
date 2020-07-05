@@ -62,7 +62,7 @@ def handle_message(event):
     if text == "グラフ":
         try:
             file = open(event.source.user_id[:4] + "range.txt", "r")
-            trage = file.read()
+            trange = file.read()
             file.close()
             range = trange.split(",")
             min = float(range[0])

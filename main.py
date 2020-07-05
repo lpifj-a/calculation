@@ -80,22 +80,6 @@ def handle_message(event):
         try :
             y = sympify(data)
             g = plot(y,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
-        except:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(
-                    text = "数式を読み取れませんでした",
-                    quick_reply=QuickReply(
-                        items=[
-                            QuickReplyButton(
-                                action=PostbackAction(label="ok",data="ok")
-                                ),
-                            QuickReplyButton(
-                                action=PostbackAction(label="help",data="help")
-                                ),
-
-                        ])))
-        finally:
             g.save("static/" + event.source.user_id[:4] +".png")
             url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
 
@@ -118,6 +102,22 @@ def handle_message(event):
                                 action=PostbackAction(label="help",data="help")
                                 ),
                         ])))
+        except:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(
+                    text = "数式を読み取れませんでした",
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=PostbackAction(label="ok",data="ok")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="help",data="help")
+                                ),
+
+                        ])))
+
 
     elif "[2]" in text :
         data2 = text.split("]")[1]

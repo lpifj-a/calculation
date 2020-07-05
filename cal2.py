@@ -3,8 +3,8 @@ from sympy import *
 import os
 
 
-
-str1="3*[sin(x)]"
+"""
+str1="sin(x)"
 str2="cos(x)"
 str3="sin(x)*cos(x)"
 range="-5,5"
@@ -23,4 +23,14 @@ try:
     g.show()
 except:
     print("a")
+"""
 #dy = diff(y)
+try:
+    file = open("range.txt", "r")
+    range = file.read()
+    file.close()
+except:
+    a=1
+    b=2
+
+print(a,b)

@@ -58,6 +58,19 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text = event.message.text
+
+    try:
+        file = open(event.source.user_id[:4] + "range.txt", "r")
+        range = file.read()
+        file.close()
+    except:
+        min = -10
+        max = 10
+
+    min = float(range[0])
+    max = float(range[1])
+
+     
     if text == "グラフ":
 
         file = open(event.source.user_id[:4] + ".txt", "r")
@@ -95,10 +108,10 @@ def handle_message(event):
                     quick_reply=QuickReply(
                         items=[
                             QuickReplyButton(
-                                action=PostbackAction(label="グラフを追加",data="グラフ2")
+                                action=PostbackAction(label="軸の範囲指定",data="軸の範囲指定")
                                 ),
                             QuickReplyButton(
-                                action=MessageAction(label="微分",text="微分")
+                                action=PostbackAction(label="グラフを追加",data="グラフ2")
                                 ),
                             QuickReplyButton(
                                 action=PostbackAction(label="ok",data="ok")
@@ -155,9 +168,6 @@ def handle_message(event):
                         items=[
                             QuickReplyButton(
                                 action=PostbackAction(label="グラフを追加",data="グラフ3")
-                                ),
-                            QuickReplyButton(
-                                action=MessageAction(label="微分",text="微分")
                                 ),
                             QuickReplyButton(
                                 action=PostbackAction(label="ok",data="ok")
@@ -218,16 +228,16 @@ def handle_message(event):
                     quick_reply=QuickReply(
                         items=[
                             QuickReplyButton(
-                                action=MessageAction(label="微分",text="微分")
-                                ),
-                            QuickReplyButton(
                                 action=PostbackAction(label="ok",data="ok")
                                 ),
                             QuickReplyButton(
                                 action=PostbackAction(label="help",data="help")
                                 ),
                         ])))
-
+    elif "," in text:
+        file = open(event.source.user_id[:4] +"range.txt","w")
+        file.write(text)
+        file.close()
 
     elif text == "微分":
         file = open(event.source.user_id[:4] + ".txt", "r")
@@ -324,6 +334,12 @@ def handle_postback(event):
                                    "例：[3]x^2*log(x)"
                            ))
 
+    elif event.postback.data == '軸の範囲指定':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "軸の範囲を[最小値,最大値]で入力して下さい\n"\
+                                   "例：-5,5"
+                           ))
 
 @handler.add(FollowEvent)
 def handle_follow(event):
@@ -345,7 +361,6 @@ def handle_follow(event):
                                                 "自然対数の底: E\n"\
                                                 "虚数単位: I"
                                            ))
-
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT"))

@@ -68,7 +68,7 @@ def handle_message(event):
 
         try :
             y = sympify(data)
-            g = plot(y,(x,-10,10))
+            g = plot(y,(x,-10,10),ylim=(-10,10),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
         except:
             line_bot_api.reply_message(
                 event.reply_token,
@@ -131,6 +131,9 @@ def handle_message(event):
                     text = "数式を読み取れませんでした",
                     quick_reply=QuickReply(
                         items=[
+                            QuickReplyButton(
+                                action=PostbackAction(label="グラフを追加",data="グラフ2")
+                                ),
                             QuickReplyButton(
                                 action=PostbackAction(label="ok",data="ok")
                                 ),
@@ -249,7 +252,9 @@ def handle_postback(event):
     elif event.postback.data == 'グラフ2':
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "重ねて描きたいグラフの数式を入力して下さい"))
+            TextSendMessage(text = "重ねて描きたい2つ目のグラフの数式を[2]を先頭に書いて入力して下さい\n"\
+                                   "例：[2]3*x^2"
+                           ))
 
 
 @handler.add(FollowEvent)

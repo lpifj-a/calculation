@@ -154,7 +154,7 @@ def handle_message(event):
                     quick_reply=QuickReply(
                         items=[
                             QuickReplyButton(
-                                action=PostbackAction(label="グラフを追加",data="グラフ2")
+                                action=PostbackAction(label="グラフを追加",data="グラフ3")
                                 ),
                             QuickReplyButton(
                                 action=MessageAction(label="微分",text="微分")
@@ -167,6 +167,66 @@ def handle_message(event):
                                 ),
                         ])))
 
+    elif "[3]" in text :
+        data3 = text.split("]")[1]
+        file = open(event.source.user_id[:4] +"3.txt","w")
+        file.write(data2)
+        file.close()
+
+        file = open(event.source.user_id[:4] + ".txt", "r")
+        data = file.read()
+        file.close()
+        file = open(event.source.user_id[:4] + "2.txt", "r")
+        data2 = file.read()
+        file.close()
+
+        x = symbols('x')
+
+        try :
+            y = sympify(data)
+            y2 = sympify(data2)
+            y3 = sympify(data3)
+            g = plot(y,y2,y3,(x,-10,10),ylim=(-10,10),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
+        except:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(
+                    text = "数式を読み取れませんでした",
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=PostbackAction(label="グラフを追加",data="グラフ3")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="ok",data="ok")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="help",data="help")
+                                ),
+
+                        ])))
+        finally:
+            g[1].line_color = "green"
+            g[2].line_color = "red"
+            g.save("static/" + event.source.user_id[:4] +".png")
+            url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
+
+            line_bot_api.reply_message(
+                event.reply_token,
+                ImageSendMessage(
+                    url,url,
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=MessageAction(label="微分",text="微分")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="ok",data="ok")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="help",data="help")
+                                ),
+                        ])))
 
     elif text == "微分":
         file = open(event.source.user_id[:4] + ".txt", "r")
@@ -252,9 +312,16 @@ def handle_postback(event):
     elif event.postback.data == 'グラフ2':
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "重ねて描きたい2つ目のグラフの数式を[2]を先頭に書いて入力して下さい\n"\
+            TextSendMessage(text = "追加するグラフの数式を[2]を先頭に書いて入力して下さい\n"\
                                    "例：[2]3*x^2"
                            ))
+
+    elif event.postback.data == 'グラフ3':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "追加するグラフの数式を[3]を先頭に書いて入力して下さい\n"\
+                                   "例：[3]x^2*log(x)"
+                           ))                           
 
 
 @handler.add(FollowEvent)

@@ -79,7 +79,7 @@ def handle_message(event):
 
         try :
             y = sympify(data)
-            g = plot(y,(x,-10,10),ylim=(-10,10),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
+            g = plot(y,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
         except:
             line_bot_api.reply_message(
                 event.reply_token,
@@ -134,7 +134,7 @@ def handle_message(event):
         try :
             y = sympify(data)
             y2 = sympify(data2)
-            g = plot(y,y2,(x,-10,10),ylim=(-10,10),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
+            g = plot(y,y2,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
         except:
             line_bot_api.reply_message(
                 event.reply_token,
@@ -194,7 +194,7 @@ def handle_message(event):
             y = sympify(data)
             y2 = sympify(data2)
             y3 = sympify(data3)
-            g = plot(y,y2,y3,(x,-10,10),ylim=(-10,10),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
+            g = plot(y,y2,y3,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
         except:
             line_bot_api.reply_message(
                 event.reply_token,
@@ -236,6 +236,38 @@ def handle_message(event):
         file = open(event.source.user_id[:4] +"range.txt","w")
         file.write(text)
         file.close()
+
+        file = open(event.source.user_id[:4] + "range.txt", "r")
+        range = file.read()
+        file.close()
+        min = float(range[0])
+        max = float(range[1])
+
+        y = sympify(data)
+        y2 = sympify(data2)
+        g = plot(y,y2,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
+        g.save("static/" + event.source.user_id[:4] +".png")
+        url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                url,url,
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=PostbackAction(label="軸の範囲指定",data="軸の範囲指定")
+                            ),
+                        QuickReplyButton(
+                            action=PostbackAction(label="グラフを追加",data="グラフ2")
+                            ),
+                        QuickReplyButton(
+                            action=PostbackAction(label="ok",data="ok")
+                            ),
+                        QuickReplyButton(
+                            action=PostbackAction(label="help",data="help")
+                            ),
+                    ])))
 
     elif text == "微分":
         file = open(event.source.user_id[:4] + ".txt", "r")

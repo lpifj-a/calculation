@@ -170,7 +170,7 @@ def handle_message(event):
     elif "[3]" in text :
         data3 = text.split("]")[1]
         file = open(event.source.user_id[:4] +"3.txt","w")
-        file.write(data2)
+        file.write(data3)
         file.close()
 
         file = open(event.source.user_id[:4] + ".txt", "r")
@@ -227,6 +227,7 @@ def handle_message(event):
                                 action=PostbackAction(label="help",data="help")
                                 ),
                         ])))
+
 
     elif text == "微分":
         file = open(event.source.user_id[:4] + ".txt", "r")
@@ -321,7 +322,7 @@ def handle_postback(event):
             event.reply_token,
             TextSendMessage(text = "追加するグラフの数式を[3]を先頭に書いて入力して下さい\n"\
                                    "例：[3]x^2*log(x)"
-                           ))                           
+                           ))
 
 
 @handler.add(FollowEvent)

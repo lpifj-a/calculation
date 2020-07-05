@@ -63,14 +63,12 @@ def handle_message(event):
         file = open(event.source.user_id[:4] + "range.txt", "r")
         range = file.read()
         file.close()
+        min = float(range[0])
+        max = float(range[1])
     except:
         min = -10
         max = 10
 
-    min = float(range[0])
-    max = float(range[1])
-
-     
     if text == "グラフ":
 
         file = open(event.source.user_id[:4] + ".txt", "r")

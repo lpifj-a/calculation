@@ -59,18 +59,17 @@ def callback():
 def handle_message(event):
     text = event.message.text
 
-    try:
-        file = open(event.source.user_id[:4] + "range.txt", "r")
-        trage = file.read()
-        file.close()
-        range = trange.split(",")
-        min = float(range[0])
-        max = float(range[1])
-    except:
-        min = -10
-        max = 10
-
     if text == "グラフ":
+        try:
+            file = open(event.source.user_id[:4] + "range.txt", "r")
+            trage = file.read()
+            file.close()
+            range = trange.split(",")
+            min = float(range[0])
+            max = float(range[1])
+        except:
+            min = -10
+            max = 10
 
         file = open(event.source.user_id[:4] + ".txt", "r")
         data = file.read()

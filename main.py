@@ -61,8 +61,9 @@ def handle_message(event):
 
     try:
         file = open(event.source.user_id[:4] + "range.txt", "r")
-        range = file.read()
+        trage = file.read()
         file.close()
+        range = trange.split(",")
         min = float(range[0])
         max = float(range[1])
     except:
@@ -237,9 +238,7 @@ def handle_message(event):
         file.write(text)
         file.close()
 
-        file = open(event.source.user_id[:4] + "range.txt", "r")
-        range = file.read()
-        file.close()
+        range = text.split(",")
         min = float(range[0])
         max = float(range[1])
 

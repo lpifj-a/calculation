@@ -242,9 +242,14 @@ def handle_message(event):
         min = float(range[0])
         max = float(range[1])
 
+        file = open(event.source.user_id[:4] + ".txt", "r")
+        data = file.read()
+        file.close()
+
+        x = symbols('x')
         y = sympify(data)
-        y2 = sympify(data2)
-        g = plot(y,y2,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
+
+        g = plot(y,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
         g.save("static/" + event.source.user_id[:4] +".png")
         url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
 

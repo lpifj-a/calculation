@@ -25,7 +25,6 @@ from linebot.models import (
 import os
 import matplotlib.pyplot as plt
 from sympy import *
-from PIL import Image
 # 軽量なウェブアプリケーションフレームワーク:Flask
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
@@ -69,7 +68,7 @@ def handle_message(event):
 
         try :
             y = sympify(data)
-            g = plotting.plot(y)
+            g = plot(y,(x,-10,10))
         except:
             line_bot_api.reply_message(
                 event.reply_token,
@@ -83,9 +82,9 @@ def handle_message(event):
                             QuickReplyButton(
                                 action=PostbackAction(label="help",data="help")
                                 ),
+
                         ])))
         finally:
-            g = plotting.plot(y)
             g.save("static/" + event.source.user_id[:4] +".png")
             url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
 
@@ -95,6 +94,65 @@ def handle_message(event):
                     url,url,
                     quick_reply=QuickReply(
                         items=[
+                            QuickReplyButton(
+                                action=PostbackAction(label="グラフを追加",data="グラフ2")
+                                ),
+                            QuickReplyButton(
+                                action=MessageAction(label="微分",text="微分")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="ok",data="ok")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="help",data="help")
+                                ),
+                        ])))
+
+    elif "[2]" in text :
+        data2 = text.split("]")[1]
+        file = open(event.source.user_id[:4] +"2.txt","w")
+        file.write(data2)
+        file.close()
+
+        file = open(event.source.user_id[:4] + ".txt", "r")
+        data = file.read()
+        file.close()
+
+        x = symbols('x')
+
+        try :
+            y = sympify(data)
+            y2 = sympify(data2)
+            g = plot(y,y2,(x,-10,10),ylim=(-10,10),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
+        except:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(
+                    text = "数式を読み取れませんでした",
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=PostbackAction(label="ok",data="ok")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="help",data="help")
+                                ),
+
+                        ])))
+        finally:
+            g[1].line_color = "green"
+            g.save("static/" + event.source.user_id[:4] +".png")
+            url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
+
+            line_bot_api.reply_message(
+                event.reply_token,
+                ImageSendMessage(
+                    url,url,
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=PostbackAction(label="グラフを追加",data="グラフ2")
+                                ),
                             QuickReplyButton(
                                 action=MessageAction(label="微分",text="微分")
                                 ),
@@ -131,6 +189,7 @@ def handle_message(event):
                             action=PostbackAction(label="help",data="help")
                             ),
                     ])))
+
 
     else:
         file = open(event.source.user_id[:4] +".txt","w")
@@ -187,6 +246,11 @@ def handle_postback(event):
                             action=PostbackAction(label="ok",data="ok")
                         ),
                     ])))
+    elif event.postback.data == 'グラフ2':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "重ねて描きたいグラフの数式を入力して下さい"))
+
 
 @handler.add(FollowEvent)
 def handle_follow(event):
@@ -206,7 +270,7 @@ def handle_follow(event):
                                                 "二乗根: sqrt(x)\n"\
                                                 "円周率: pi\n"\
                                                 "自然対数の底: E\n"\
-                                                "虚数単位: I"            
+                                                "虚数単位: I"
                                            ))
 
 

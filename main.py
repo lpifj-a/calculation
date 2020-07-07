@@ -285,7 +285,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text = sstr(dy),
+                text = text,
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
@@ -300,7 +300,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text = 選んでください,
+                text = "選んでください",
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
@@ -399,12 +399,13 @@ def handle_postback(event):
             x = symbols('x')
             y = sympify(data)
             Y = integrate(y,x)
+            text = sstr(Y)
         except:
-            Y = "数式を読み取れませんでした"
+            text = "数式を読み取れませんでした"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text = sstr(Y),
+                text = text,
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(

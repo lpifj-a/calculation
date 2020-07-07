@@ -398,7 +398,7 @@ def handle_postback(event):
         try:
             x = symbols('x')
             y = sympify(data)
-            Y = integrate(y,x)
+            Y = integrate(y)
             text = sstr(Y)
         except:
             text = "数式を読み取れませんでした"

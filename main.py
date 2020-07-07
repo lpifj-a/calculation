@@ -25,7 +25,7 @@ from linebot.models import (
 import os
 import matplotlib.pyplot as plt
 from sympy import *
-# 軽量なウェブアプリケーションフレームワーク:Flask
+
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 
@@ -102,6 +102,7 @@ def handle_message(event):
                                 action=PostbackAction(label="help",data="help")
                                 ),
                         ])))
+
         except:
             line_bot_api.reply_message(
                 event.reply_token,
@@ -135,6 +136,27 @@ def handle_message(event):
             y = sympify(data)
             y2 = sympify(data2)
             g = plot(y,y2,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
+            g[1].line_color = "green"
+            g.save("static/" + event.source.user_id[:4] +".png")
+            url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
+
+            line_bot_api.reply_message(
+                event.reply_token,
+                ImageSendMessage(
+                    url,url,
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=PostbackAction(label="グラフを追加",data="グラフ3")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="ok",data="ok")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="help",data="help")
+                                ),
+                        ])))
+
         except:
             line_bot_api.reply_message(
                 event.reply_token,
@@ -153,34 +175,13 @@ def handle_message(event):
                                 ),
 
                         ])))
-        finally:
-            g[1].line_color = "green"
-            g.save("static/" + event.source.user_id[:4] +".png")
-            url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
 
-            line_bot_api.reply_message(
-                event.reply_token,
-                ImageSendMessage(
-                    url,url,
-                    quick_reply=QuickReply(
-                        items=[
-                            QuickReplyButton(
-                                action=PostbackAction(label="グラフを追加",data="グラフ3")
-                                ),
-                            QuickReplyButton(
-                                action=PostbackAction(label="ok",data="ok")
-                                ),
-                            QuickReplyButton(
-                                action=PostbackAction(label="help",data="help")
-                                ),
-                        ])))
 
     elif "[3]" in text :
         data3 = text.split("]")[1]
         file = open(event.source.user_id[:4] +"3.txt","w")
         file.write(data3)
         file.close()
-
         file = open(event.source.user_id[:4] + ".txt", "r")
         data = file.read()
         file.close()
@@ -195,25 +196,6 @@ def handle_message(event):
             y2 = sympify(data2)
             y3 = sympify(data3)
             g = plot(y,y2,y3,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
-        except:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(
-                    text = "数式を読み取れませんでした",
-                    quick_reply=QuickReply(
-                        items=[
-                            QuickReplyButton(
-                                action=PostbackAction(label="グラフを追加",data="グラフ3")
-                                ),
-                            QuickReplyButton(
-                                action=PostbackAction(label="ok",data="ok")
-                                ),
-                            QuickReplyButton(
-                                action=PostbackAction(label="help",data="help")
-                                ),
-
-                        ])))
-        finally:
             g[1].line_color = "green"
             g[2].line_color = "red"
             g.save("static/" + event.source.user_id[:4] +".png")
@@ -232,11 +214,29 @@ def handle_message(event):
                                 action=PostbackAction(label="help",data="help")
                                 ),
                         ])))
+        except:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(
+                    text = "数式を読み取れませんでした",
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=PostbackAction(label="グラフを追加",data="グラフ3")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="ok",data="ok")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="help",data="help")
+                                ),
+
+                        ])))
+
     elif "," in text:
         file = open(event.source.user_id[:4] +"range.txt","w")
         file.write(text)
         file.close()
-
         range = text.split(",")
         min = float(range[0])
         max = float(range[1])
@@ -247,7 +247,6 @@ def handle_message(event):
 
         x = symbols('x')
         y = sympify(data)
-
         g = plot(y,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
         g.save("static/" + event.source.user_id[:4] +".png")
         url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
@@ -276,10 +275,13 @@ def handle_message(event):
         file = open(event.source.user_id[:4] + ".txt", "r")
         data = file.read()
         file.close()
-
-        x = symbols('x')
-        y = sympify(data)
-        dy = diff(y)
+        try:
+            x = symbols('x')
+            y = sympify(data)
+            dy = diff(y)
+            text = sstr(dy)
+        except:
+            text = "数式を読み取れませんでした"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
@@ -287,13 +289,25 @@ def handle_message(event):
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=MessageAction(label="グラフ",text="グラフ")
-                            ),
-                        QuickReplyButton(
                             action=PostbackAction(label="ok",data="ok")
                             ),
                         QuickReplyButton(
                             action=PostbackAction(label="help",data="help")
+                            ),
+                    ])))
+
+    elif text == "積分":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(
+                text = 選んでください,
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=PostbackAction(label="不定積分",data="不定積分")
+                            ),
+                        QuickReplyButton(
+                            action=PostbackAction(label="定積分",data="定積分")
                             ),
                     ])))
 
@@ -313,6 +327,9 @@ def handle_message(event):
                             ),
                         QuickReplyButton(
                             action=MessageAction(label="微分",text="微分")
+                            ),
+                        QuickReplyButton(
+                            action=MessageAction(label="積分",text="積分")
                             ),
                         QuickReplyButton(
                             action=PostbackAction(label="ok",data="ok")
@@ -373,6 +390,31 @@ def handle_postback(event):
             TextSendMessage(text = "軸の範囲を[最小値,最大値]で入力して下さい\n"\
                                    "例：-5,5"
                            ))
+
+    elif event.postback.data == '不定積分':
+        file = open(event.source.user_id[:4] + ".txt", "r")
+        data = file.read()
+        file.close()
+        try:
+            x = symbols('x')
+            y = sympify(data)
+            Y = integrate(y,x)
+        except:
+            Y = "数式を読み取れませんでした"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(
+                text = sstr(Y),
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=PostbackAction(label="ok",data="ok")
+                            ),
+                        QuickReplyButton(
+                            action=PostbackAction(label="help",data="help")
+                            ),
+                    ])))
+
 
 @handler.add(FollowEvent)
 def handle_follow(event):

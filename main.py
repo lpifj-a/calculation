@@ -427,7 +427,7 @@ def handle_postback(event):
     elif event.postback.data == '軸の範囲指定':
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "軸の範囲の最小値,最大値を入力して下さい\n"\
+            TextSendMessage(text = "軸の範囲を\'最小値,最大値\'の形式で入力して下さい\n"\
                                    "例：-5,5"
                            ))
     elif event.postback.data == '不定積分':
@@ -460,8 +460,8 @@ def handle_postback(event):
         file.close()
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "積分区間を[a,b]の形式で入力して下さい\n"\
-                                   "例：[0,10]"
+            TextSendMessage(text = "積分区間を\'下端,上端\'の形式で入力して下さい\n"\
+                                   "例：0,10"
                            ))
 @handler.add(FollowEvent)
 def handle_follow(event):

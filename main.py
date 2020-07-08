@@ -70,7 +70,9 @@ def handle_message(event):
         max = 10
 
     if text == "グラフ":
-
+        file = open(event.source.user_id[:4] +"mode.txt","w")
+        file.write("グラフ")
+        file.close()
         file = open(event.source.user_id[:4] + ".txt", "r")
         data = file.read()
         file.close()
@@ -230,9 +232,11 @@ def handle_message(event):
         mode = file.read()
         file.close()
         if mode == "定積分":
-            a = float(((text.split(","))[0]).split("[")[1])
-            b = float(((text.split(","))[1]).split("]")[0])
-
+            try:
+                a = float(((text.split(","))[0]).split("[")[1])
+                b = float(((text.split(","))[1]).split("]")[0])
+            except:
+                text = "区間を読み取れませんでした"
             file = open(event.source.user_id[:4] + ".txt", "r")
             data = file.read()
             file.close()
@@ -256,7 +260,7 @@ def handle_message(event):
                                 action=PostbackAction(label="help",data="help")
                                 ),
                         ])))
-        else:
+        elif mode == "グラフ":
             file = open(event.source.user_id[:4] +"range.txt","w")
             file.write(text)
             file.close()

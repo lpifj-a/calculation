@@ -236,8 +236,9 @@ def handle_message(event):
             mode ="媒介変数"
 
         if mode == "定積分":
-            a = float(((text.split(","))[0]).split("[")[1])
-            b = float(((text.split(","))[1]).split("]")[0])
+            integ = text.split(",")
+            a = float(integ[0])
+            b = float(integ[1])
             file = open(event.source.user_id[:4] + ".txt", "r")
             data = file.read()
             file.close()
@@ -427,7 +428,7 @@ def handle_postback(event):
     elif event.postback.data == '軸の範囲指定':
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "軸の範囲を\'最小値,最大値\'の形式で入力して下さい\n"\
+            TextSendMessage(text = "軸の範囲を \"最小値,最大値\" の形式で入力して下さい\n"\
                                    "例：-5,5"
                            ))
     elif event.postback.data == '不定積分':
@@ -460,7 +461,7 @@ def handle_postback(event):
         file.close()
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "積分区間を\'下端,上端\'の形式で入力して下さい\n"\
+            TextSendMessage(text = "積分区間を \"下端,上端\" の形式で入力して下さい\n"\
                                    "例：0,10"
                            ))
 @handler.add(FollowEvent)

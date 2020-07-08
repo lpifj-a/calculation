@@ -26,7 +26,6 @@ except:
 """
 #dy = diff(y)
 
-str = "[-67,9]"
-a = float(((str.split(","))[0]).split("[")[1])
-b = float(((str.split(","))[1]).split("]")[0])
-print(a+b)
+str = "-oo,oo"
+integ=str.split(",")
+print(integ)

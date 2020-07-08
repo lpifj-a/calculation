@@ -237,8 +237,12 @@ def handle_message(event):
 
         if mode == "定積分":
             integ = text.split(",")
-            a = float(integ[0])
-            b = float(integ[1])
+            try:
+                a = float(integ[0])
+                b = float(integ[1])
+            except:
+                a = integ[0]
+                b = integ[1]   
             file = open(event.source.user_id[:4] + ".txt", "r")
             data = file.read()
             file.close()

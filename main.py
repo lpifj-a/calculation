@@ -313,6 +313,7 @@ def handle_message(event):
                                 action=PostbackAction(label="help",data="help")
                                 ),
                         ])))
+
     elif text == "微分":
         file = open(event.source.user_id[:4] + ".txt", "r")
         data = file.read()
@@ -428,7 +429,9 @@ def handle_postback(event):
     elif event.postback.data == '軸の範囲指定':
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "軸の範囲を \"最小値,最大値\" の形式で入力して下さい\n"\
+            TextSendMessage(text = "軸の範囲を\n"\
+                                   "\"最小値,最大値\"\n"\
+                                   "の形式で入力して下さい"
                                    "例：-5,5"
                            ))
     elif event.postback.data == '不定積分':

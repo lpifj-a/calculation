@@ -239,9 +239,11 @@ def handle_message(event):
             integ = text.split(",")
             try:
                 a = float(integ[0])
-                b = float(integ[1])
             except:
                 a = integ[0]
+            try:
+                b = float(integ[1])
+            except:
                 b = integ[1]   
             file = open(event.source.user_id[:4] + ".txt", "r")
             data = file.read()

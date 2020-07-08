@@ -241,7 +241,7 @@ def handle_message(event):
                 Y = integrate(y,(x,a,b))
                 text = sstr(Y)
             except:
-                text = "数式を読み取れませんでした"
+                text = "数式もしくは区間を読み取れませんでした"
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(
@@ -369,7 +369,8 @@ def handle_postback(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text = "※掛け算の記号「*」は省略せずに書いてください。\n\n"\
+                text = "※掛け算の記号「*」は省略せずに書いてください。\n"\
+                       "※微分積分は基本的に変数xについて行います\n\n"\
                         "ーー演算記号についてーー\n"\
                         "掛け算: *\n"\
                         "割り算: /\n"\
@@ -442,7 +443,8 @@ def handle_follow(event):
     line_bot_api.reply_message(
         event.reply_token, TextSendMessage(text="グラフ描画、微分積分などの計算ができます。\n"\
                                                 "解析したい数式を入力して下さい。\n"\
-                                                "※掛け算の記号「*」は省略せずに書いてください。\n\n"\
+                                                "※掛け算の記号「*」は省略せずに書いてください。\n"\
+                                                "※微分積分は基本的に変数xについて行います\n\n"\
                                                 "ーー演算記号についてーー\n"\
                                                 "掛け算: *\n"\
                                                 "割り算: /\n"\

@@ -244,14 +244,14 @@ def handle_message(event):
             try:
                 b = float(integ[1])
             except:
-                b = integ[1]   
+                b = integ[1]
             file = open(event.source.user_id[:4] + ".txt", "r")
             data = file.read()
             file.close()
             try:
                 x = symbols('x')
                 y = sympify(data)
-                Y = integrate(y,(x,a,b))
+                Y = integrate(y,(x,a,b)).evalf()
                 text = sstr(Y)
             except:
                 text = "数式を読み取れませんでした"

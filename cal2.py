@@ -26,6 +26,4 @@ except:
 """
 #dy = diff(y)
 
-str = "-oo,oo"
-integ=str.split(",")
-print(integ)
+print(Rational(pi))

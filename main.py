@@ -228,15 +228,16 @@ def handle_message(event):
 
                         ])))
     elif "," in text:
-        file = open(event.source.user_id[:4] + "mode.txt", "r")
-        mode = file.read()
-        file.close()
+        try:
+            file = open(event.source.user_id[:4] + "mode.txt", "r")
+            mode = file.read()
+            file.close()
+        except:
+            mode ="媒介変数"
+
         if mode == "定積分":
-            try:
-                a = float(((text.split(","))[0]).split("[")[1])
-                b = float(((text.split(","))[1]).split("]")[0])
-            except:
-                text = "区間を読み取れませんでした"
+            a = float(((text.split(","))[0]).split("[")[1])
+            b = float(((text.split(","))[1]).split("]")[0])
             file = open(event.source.user_id[:4] + ".txt", "r")
             data = file.read()
             file.close()
@@ -290,6 +291,20 @@ def handle_message(event):
                             QuickReplyButton(
                                 action=PostbackAction(label="グラフを追加",data="グラフ2")
                                 ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="ok",data="ok")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="help",data="help")
+                                ),
+                        ])))
+        elif mode == "媒介変数":
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(
+                    text = "準備中です",
+                    quick_reply=QuickReply(
+                        items=[
                             QuickReplyButton(
                                 action=PostbackAction(label="ok",data="ok")
                                 ),
@@ -364,6 +379,9 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def handle_postback(event):
     if event.postback.data == 'ok':
+        file = open(event.source.user_id[:4] +"mode.txt","w")
+        file.write("媒介変数")
+        file.close()
         line_bot_api.reply_message(
             event.reply_token, TextSendMessage(text="解析したい数式を入力して下さい"))
     elif event.postback.data == 'help':

@@ -118,8 +118,6 @@ def handle_message(event):
                                 ),
 
                         ])))
-
-
     elif "[2]" in text :
         data2 = text.split("]")[1]
         file = open(event.source.user_id[:4] +"2.txt","w")
@@ -156,7 +154,6 @@ def handle_message(event):
                                 action=PostbackAction(label="help",data="help")
                                 ),
                         ])))
-
         except:
             line_bot_api.reply_message(
                 event.reply_token,
@@ -175,8 +172,6 @@ def handle_message(event):
                                 ),
 
                         ])))
-
-
     elif "[3]" in text :
         data3 = text.split("]")[1]
         file = open(event.source.user_id[:4] +"3.txt","w")
@@ -232,45 +227,71 @@ def handle_message(event):
                                 ),
 
                         ])))
-
     elif "," in text:
-        file = open(event.source.user_id[:4] +"range.txt","w")
-        file.write(text)
-        file.close()
-        range = text.split(",")
-        min = float(range[0])
-        max = float(range[1])
+        if "[" in text:
+            a = float(((text.split(","))[0]).split("[")[1])
+            b = float(((text.split(","))[1]).split("]")[0])
 
-        file = open(event.source.user_id[:4] + ".txt", "r")
-        data = file.read()
-        file.close()
+            file = open(event.source.user_id[:4] + ".txt", "r")
+            data = file.read()
+            file.close()
+            try:
+                x = symbols('x')
+                y = sympify(data)
+                Y = integrate(y,(x,a,b))
+                text = sstr(Y)
+            except:
+                text = "数式を読み取れませんでした"
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(
+                    text = text,
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=PostbackAction(label="ok",data="ok")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="help",data="help")
+                                ),
+                        ])))
+        else:
+            file = open(event.source.user_id[:4] +"range.txt","w")
+            file.write(text)
+            file.close()
+            range = text.split(",")
+            min = float(range[0])
+            max = float(range[1])
 
-        x = symbols('x')
-        y = sympify(data)
-        g = plot(y,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
-        g.save("static/" + event.source.user_id[:4] +".png")
-        url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
+            file = open(event.source.user_id[:4] + ".txt", "r")
+            data = file.read()
+            file.close()
 
-        line_bot_api.reply_message(
-            event.reply_token,
-            ImageSendMessage(
-                url,url,
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=PostbackAction(label="軸の範囲指定",data="軸の範囲指定")
-                            ),
-                        QuickReplyButton(
-                            action=PostbackAction(label="グラフを追加",data="グラフ2")
-                            ),
-                        QuickReplyButton(
-                            action=PostbackAction(label="ok",data="ok")
-                            ),
-                        QuickReplyButton(
-                            action=PostbackAction(label="help",data="help")
-                            ),
-                    ])))
+            x = symbols('x')
+            y = sympify(data)
+            g = plot(y,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
+            g.save("static/" + event.source.user_id[:4] +".png")
+            url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
 
+            line_bot_api.reply_message(
+                event.reply_token,
+                ImageSendMessage(
+                    url,url,
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=PostbackAction(label="軸の範囲指定",data="軸の範囲指定")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="グラフを追加",data="グラフ2")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="ok",data="ok")
+                                ),
+                            QuickReplyButton(
+                                action=PostbackAction(label="help",data="help")
+                                ),
+                        ])))
     elif text == "微分":
         file = open(event.source.user_id[:4] + ".txt", "r")
         data = file.read()
@@ -295,7 +316,6 @@ def handle_message(event):
                             action=PostbackAction(label="help",data="help")
                             ),
                     ])))
-
     elif text == "積分":
         line_bot_api.reply_message(
             event.reply_token,
@@ -310,8 +330,6 @@ def handle_message(event):
                             action=PostbackAction(label="定積分",data="定積分")
                             ),
                     ])))
-
-
     else:
         file = open(event.source.user_id[:4] +".txt","w")
         file.write(text)
@@ -376,21 +394,18 @@ def handle_postback(event):
             TextSendMessage(text = "追加するグラフの数式を[2]を先頭に書いて入力して下さい\n"\
                                    "例：[2]3*x^2"
                            ))
-
     elif event.postback.data == 'グラフ3':
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "追加するグラフの数式を[3]を先頭に書いて入力して下さい\n"\
                                    "例：[3]x^2*log(x)"
                            ))
-
     elif event.postback.data == '軸の範囲指定':
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "軸の範囲を[最小値,最大値]で入力して下さい\n"\
+            TextSendMessage(text = "軸の範囲の最小値,最大値を入力して下さい\n"\
                                    "例：-5,5"
                            ))
-
     elif event.postback.data == '不定積分':
         file = open(event.source.user_id[:4] + ".txt", "r")
         data = file.read()
@@ -415,8 +430,12 @@ def handle_postback(event):
                             action=PostbackAction(label="help",data="help")
                             ),
                     ])))
-
-
+    elif event.postback.data == '定積分':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "積分区間を[a,b]の形式で入力して下さい\n"\
+                                   "例：[0,10]"
+                           ))
 @handler.add(FollowEvent)
 def handle_follow(event):
     app.logger.info("Got Follow event:" + event.source.user_id)

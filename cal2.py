@@ -3,7 +3,7 @@ from sympy import *
 import os
 
 
-
+"""
 str1="xsin(x)"
 str2="cos(x)"
 str3="sin(x)*cos(x)"
@@ -23,4 +23,10 @@ try:
     g.show()
 except:
     print("a")
+"""
 #dy = diff(y)
+
+str = "[-67,9]"
+a = float(((str.split(","))[0]).split("[")[1])
+b = float(((str.split(","))[1]).split("]")[0])
+print(a+b)

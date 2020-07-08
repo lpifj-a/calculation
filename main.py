@@ -102,7 +102,6 @@ def handle_message(event):
                                 action=PostbackAction(label="help",data="help")
                                 ),
                         ])))
-
         except:
             line_bot_api.reply_message(
                 event.reply_token,
@@ -123,7 +122,6 @@ def handle_message(event):
         file = open(event.source.user_id[:4] +"2.txt","w")
         file.write(data2)
         file.close()
-
         file = open(event.source.user_id[:4] + ".txt", "r")
         data = file.read()
         file.close()
@@ -228,7 +226,10 @@ def handle_message(event):
 
                         ])))
     elif "," in text:
-        if "[" in text:
+        file = open(event.source.user_id[:4] + "mode.txt", "r")
+        mode = file.read()
+        file.close()
+        if mode == "定積分":
             a = float(((text.split(","))[0]).split("[")[1])
             b = float(((text.split(","))[1]).split("]")[0])
 
@@ -241,7 +242,7 @@ def handle_message(event):
                 Y = integrate(y,(x,a,b))
                 text = sstr(Y)
             except:
-                text = "数式もしくは区間を読み取れませんでした"
+                text = "数式を読み取れませんでした"
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(
@@ -356,7 +357,6 @@ def handle_message(event):
                             action=PostbackAction(label="help",data="help")
                             ),
                     ])))
-
 @handler.add(PostbackEvent)
 def handle_postback(event):
     if event.postback.data == 'ok':
@@ -370,7 +370,8 @@ def handle_postback(event):
             event.reply_token,
             TextSendMessage(
                 text = "※掛け算の記号「*」は省略せずに書いてください。\n"\
-                       "※微分積分は基本的に変数xについて行います\n\n"\
+                       "※微分積分は基本的に変数xについて行います。\n"\
+                       "※予期しない入力に対して返答がおかしくなることがあります。\n\n"\
                         "ーー演算記号についてーー\n"\
                         "掛け算: *\n"\
                         "割り算: /\n"\
@@ -432,6 +433,9 @@ def handle_postback(event):
                             ),
                     ])))
     elif event.postback.data == '定積分':
+        file = open(event.source.user_id[:4] +"mode.txt","w")
+        file.write("定積分")
+        file.close()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "積分区間を[a,b]の形式で入力して下さい\n"\

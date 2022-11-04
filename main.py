@@ -81,8 +81,8 @@ def handle_message(event):
         try :
             y = sympify(data)
             g = plot(y,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
-            g.save("static/" + event.source.user_id[:4] +".png")
-            url = "https://calculation-sympy.herokuapp.com/static/" + event.source.user_id[:4] + ".png"
+            g.save(event.source.user_id[:4] +".png")
+            url =  event.source.user_id[:4] + ".png"
 
             line_bot_api.reply_message(
                 event.reply_token,
@@ -134,8 +134,8 @@ def handle_message(event):
             y2 = sympify(data2)
             g = plot(y,y2,(x,min,max),ylim=(min,max),axis_center=(0,0),legend=true,aspect_ratio=(1.0,1.0),show=false)
             g[1].line_color = "green"
-            g.save("postgres://linebot_graph_user:PVLTZT8bHQBFpZjGhBp7xhInIzBnygBF@dpg-cdht7r6n6mpue9hat890-a/linebot_graph_db/" + event.source.user_id[:4] +".png")
-            url = "postgres://linebot_graph_user:PVLTZT8bHQBFpZjGhBp7xhInIzBnygBF@dpg-cdht7r6n6mpue9hat890-a/linebot_graph_db/" + event.source.user_id[:4] + ".png"
+            g.save("https://linebot-calculation.onrender.com/"+ event.source.user_id[:4] +".png")
+            url = "https://linebot-calculation.onrender.com/" + event.source.user_id[:4] + ".png"
 
             line_bot_api.reply_message(
                 event.reply_token,
